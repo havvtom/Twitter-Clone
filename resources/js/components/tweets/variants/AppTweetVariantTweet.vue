@@ -1,8 +1,8 @@
 <template>
 	<div class="flex w-full">
-		<div class="mr-3">
-			<img :src="tweet.user.avatar" class="w-12 rounded-full">
-		</div>
+		
+		<img :src="tweet.user.avatar" class="h-12 w-12 mr-3 rounded-full">
+		
 		<div class="flex-grow">
 			<app-tweet-username 
 				:user="tweet.user"
@@ -11,8 +11,12 @@
 
 			<div class="flex flex-wrap mt-4 mb-4" v-if="images.length">
 				<div class="flex-grow w-6/12" v-for="(image, index) in images" :key="index">
-					<img :src="image.url">
+					<img :src="image.url" class="rounded-lg">
 				</div>
+			</div>
+
+			<div v-if="video" class="mt-4 mb-4">
+				<video :src="video.url" controls class="rounded-lg"></video>
 			</div>
 
 			<app-tweet-action-group 
@@ -33,6 +37,9 @@
 		computed: {
 			images () {
 				return this.tweet.media.data.filter(m => m.type === 'image')
+			},
+			video () {
+				return this.tweet.media.data.filter(m => m.type === 'video')[0]
 			}
 		}
 	}

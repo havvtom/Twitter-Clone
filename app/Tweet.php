@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use App\User;
 use App\Tweet;
 use App\Like;
@@ -40,5 +41,15 @@ class Tweet extends Model
     public function media ()
     {
         return $this->hasMany(TweetMedia::class);
+    }
+
+    public function replies ()
+    {
+        return $this->hasMany(Tweet::class, 'parent_id');
+    }
+
+    public function scopeParent (Builder $query)
+    {
+        return $query->whereNull('parent_id');
     }
 }

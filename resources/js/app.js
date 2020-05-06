@@ -14,6 +14,17 @@ Vue.use(Vuex)
 import { ObserveVisibility } from 'vue-observe-visibility'
 Vue.directive('observe-visibility', ObserveVisibility)
 
+import VModal from 'vue-js-modal'
+Vue.use(VModal, {
+	dynamic: true,
+	injectModalsContainer: true,
+	dynamicDefaults: {
+		pivotY: 0.1,
+		height: 'auto',
+		classes: '!bg-gray-900 rounded-lg p-4'
+	}
+})
+
 Vue.prototype.$user = User
 
 /**
