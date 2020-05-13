@@ -9,6 +9,7 @@
 		<app-tweet-reply-compose
 			v-if="tweet"
 			:tweet="tweet"
+			@success="$emit('close')"
 		/>
 	</div>
 </template>

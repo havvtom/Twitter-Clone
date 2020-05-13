@@ -6,16 +6,27 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Tweet;
 use App\Events\Tweets\TweetLikesWereUpdated;
+use App\Notifications\Tweets\TweetLiked;
 
 class TweetLikeController extends Controller
 {
+    public function __construct(){
+        $this->middleware(['auth:sanctum']);
+    }
+
     public function store (Tweet $tweet, Request $request) {
 
-    	//cant like twice
     	if($request->user()->hasLiked($tweet)){
     		return response(null, 409);
     	}
+
     	$request->user()->likes()->create(['tweet_id' => $tweet->id]);
+
+        
+        // if($tweet->user_id !== $request->user()->id){
+            $tweet->user->notify(new TweetLiked($request->user(), $tweet));
+        // }
+        
 
     	broadcast(new TweetLikesWereUpdated($request->user(), $tweet));
     }

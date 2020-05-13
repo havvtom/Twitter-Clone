@@ -1,0 +1,63 @@
+<template>
+	<div>
+		<app-notification 
+			v-for="notification in notifications"
+			:key="notification.id"
+			:notification="notification"
+		/>
+		<div 
+			v-show="notifications.length" 
+			v-observe-visibility="visibilityChanged"
+		>
+			
+		</div>
+	</div>
+</template>
+<script type="text/javascript">
+	import { mapGetters, mapActions } from 'vuex'
+	export default {
+		data () {
+			return {
+				page:1, 
+				lastPage:null
+			}
+		},
+		computed: {
+			...mapGetters({
+				notifications: 'notifications/notifications'
+			}),
+			urlWithPage () {
+				return `/api/notifications?page=${this.page}`
+			}
+		}
+		,
+		methods: {
+			...mapActions({
+				getNotifications: 'notifications/getNotifications'
+			}),
+			loadNotifications () {
+				this.getNotifications(this.urlWithPage).then(response=>{					
+		      		this.lastpage = response.data.meta.last_page
+		      		// console.log(response, response.data.meta.last_page, this.page)
+				})
+			},
+			visibilityChanged (isVisible) {
+		      if(!isVisible){
+		      	return
+		      }
+
+		      if( this.lastPage === this.page ) {
+		      	return
+		      }
+
+		      this.page++; 
+
+		      this.loadNotifications()
+		    },
+		},
+		mounted () {
+			this.loadNotifications()
+		}
+	}
+</script>
+
