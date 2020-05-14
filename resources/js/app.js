@@ -65,7 +65,8 @@ const app = new Vue({
 });
 Echo.channel('tweets')
 	.listen('.TweetRepliesWereUpdated', (e) => {
-		store.commit('timeline/SET_REPLIES', {id: e.id, count: e.count});		
+		store.commit('timeline/SET_REPLIES', {id: e.id, count: e.count});
+		store.commit('notifications/SET_REPLIES', {id: e.id, count: e.count});		
 	});
 
 Echo.channel('tweets')
@@ -74,6 +75,9 @@ Echo.channel('tweets')
 			store.dispatch('likes/syncLike', e.id)
 		}
 		store.commit('timeline/SET_LIKES', {
+			id: e.id, 
+			count: e.count});
+		store.commit('notifications/SET_LIKES', {
 			id: e.id, 
 			count: e.count});		
 		
@@ -84,6 +88,9 @@ Echo.channel('tweets')
 			store.dispatch('retweets/syncRetweet', e.id)
 		}
 		store.commit('timeline/SET_RETWEETS', {
+			id: e.id, 
+			count: e.count});
+		store.commit('notifications/SET_RETWEETS', {
 			id: e.id, 
 			count: e.count});	
 	});

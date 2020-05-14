@@ -1,5 +1,5 @@
 <template>
-	<div class="flex border-b border-gray-800 h-32">
+	<div class="flex border-b border-gray-800">
 		<component
 			:is="`AppNotification${notification.type}`"
 			:notification="notification"

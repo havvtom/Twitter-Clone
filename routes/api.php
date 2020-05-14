@@ -2,6 +2,7 @@
 
 Route::get('/timeline', 'Api\Timeline\TimelineController@index');
 
+Route::get('/tweets', 'Api\Tweets\TweetsController@index');
 Route::post('/tweets', 'Api\Tweets\TweetsController@store');
 
 Route::post('/tweets/{tweet}/replies', 'Api\Tweets\TweetReplyController@store');

@@ -19,7 +19,7 @@
 		data () {
 			return {
 				page:1, 
-				lastPage:null
+				lastPage:1
 			}
 		},
 		computed: {
