@@ -8,14 +8,32 @@ use App\User;
 use App\Tweet;
 use App\Like;
 use App\TweetMedia;
+use App\Entity;
+use App\Tweets\Entities\EntityExtractor;
 
 class Tweet extends Model
 {
 	protected $guarded = [];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created( function (Tweet $tweet) {
+            $tweet->entities()->createMany(
+                (new EntityExtractor($tweet->body))->getHashtagEntities()
+            );
+        });
+    }
+
     public function user () {
 
     	return $this->belongsTo(User::class);
+    }
+
+    public function entities()
+    {
+        return $this->hasMany(Entity::class);
     }
 
     public function originalTweet () {

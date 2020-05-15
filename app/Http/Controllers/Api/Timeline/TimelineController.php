@@ -16,7 +16,7 @@ class TimelineController extends Controller
 
     	$tweets = $request->user()
 	    	->tweetsFromFollowing()
-            // ->parent()
+            ->parent()
 	    	->with(['user',
                     'likes', 
                     'retweets',
